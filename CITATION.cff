@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you refer to this work, please cite it as below."
+title: "SpermSelect-AI: Video-Based Sperm Detection, Tracking and Motility Grading to Support ICSI Sperm Selection Ahead of Embryo Vitrification"
+authors:
+  - family-names: Naqvi
+    given-names: Husain
+version: 1.0.0
+date-released: 2026-11-08
+license: LicenseRef-All-Rights-Reserved
+repository-code: "https://github.com/Engr-HusainNaqvi/Sperm-Select-AI"
+url: "https://engr-husainnaqvi.github.io/Sperm-Select-AI/"
+keywords: [sperm motility, CASA, ICSI, IVF, embryo vitrification, object detection, YOLO, multi-object tracking, learning from label proportions, VISEM]
+references:
+  - type: article
+    authors:
+      - family-names: Thambawita
+        given-names: Vajira
+    title: "VISEM-Tracking, a human spermatozoa tracking dataset"
+    journal: "Scientific Data"
+    volume: 10
+    start: 260
+    year: 2023
+    doi: 10.1038/s41597-023-02173-4
+  - type: conference-paper
+    authors:
+      - family-names: Haugen
+        given-names: Trine B.
+    title: "VISEM: A multimodal video dataset of human spermatozoa"
+    collection-title: "Proceedings of the 10th ACM Multimedia Systems Conference"
+    year: 2019
+    doi: 10.1145/3304109.3325814

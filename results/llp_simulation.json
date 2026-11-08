@@ -1,0 +1,47 @@
+{
+ "setup": "85 simulated men, 68 train / 17 held-out, overlapping lognormal kinematics (sigma 0.6), lab proportions with +-5 pt noise",
+ "runs": [
+  {
+   "seed": 0,
+   "llp_acc": 0.9598155467720685,
+   "supervised_ceiling_acc": 0.9749670619235836,
+   "who_rule_acc": 0.5520421607378129,
+   "chance": 0.4393939393939394
+  },
+  {
+   "seed": 1,
+   "llp_acc": 0.9492419248516809,
+   "supervised_ceiling_acc": 0.979564930784443,
+   "who_rule_acc": 0.5181278839815425,
+   "chance": 0.4021094264996704
+  },
+  {
+   "seed": 2,
+   "llp_acc": 0.9596153846153846,
+   "supervised_ceiling_acc": 0.9794871794871794,
+   "who_rule_acc": 0.45064102564102565,
+   "chance": 0.5256410256410257
+  },
+  {
+   "seed": 3,
+   "llp_acc": 0.9653083700440529,
+   "supervised_ceiling_acc": 0.9708149779735683,
+   "who_rule_acc": 0.4873348017621145,
+   "chance": 0.44823788546255505
+  },
+  {
+   "seed": 4,
+   "llp_acc": 0.9634864546525324,
+   "supervised_ceiling_acc": 0.9705535924617197,
+   "who_rule_acc": 0.5005889281507656,
+   "chance": 0.41872791519434627
+  }
+ ],
+ "mean": {
+  "seed": 2.0,
+  "llp_acc": 0.959,
+  "supervised_ceiling_acc": 0.975,
+  "who_rule_acc": 0.502,
+  "chance": 0.447
+ }
+}

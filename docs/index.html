@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpermSelect-AI — Sperm Selection from Video</title>
+<meta name="description" content="Video-based detection, tracking and motility grading of human spermatozoa to support ICSI sperm selection ahead of embryo vitrification. Husain Naqvi, 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbfbfd;--fg:#14161a;--muted:#5b6170;--card:#ffffff;--line:#e6e8ee;--accent:#2563eb;--accent-soft:#e8efff;--warn:#b45309}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1116;--fg:#e8eaf0;--muted:#9aa1b2;--card:#161a22;--line:#262c38;--accent:#6ea0ff;--accent-soft:#1b2640;--warn:#f59e0b}}
+:root[data-theme="dark"]{--bg:#0e1116;--fg:#e8eaf0;--muted:#9aa1b2;--card:#161a22;--line:#262c38;--accent:#6ea0ff;--accent-soft:#1b2640;--warn:#f59e0b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Inter,system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+.kicker{color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:13px}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:.3em 0;font-weight:800}
+.lead{font-size:clamp(17px,2.4vw,20px);color:var(--muted);max-width:800px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{display:inline-block;padding:9px 16px;border-radius:8px;border:1px solid var(--line);color:var(--fg);text-decoration:none;font-weight:600;font-size:14px;background:var(--card)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+section{padding:36px 0;border-bottom:1px solid var(--line)}
+h2{font-size:24px;margin:0 0 12px}
+h3{font-size:18px;margin:22px 0 8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stat b{display:block;font-size:26px;color:var(--accent)}
+.stat span{color:var(--muted);font-size:13px}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}
+figure img{width:100%;height:auto;display:block}
+figcaption{color:#555;font-size:13px;padding:6px 4px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+tr.best td{font-weight:700;color:var(--accent)}
+.note{background:var(--accent-soft);border-radius:10px;padding:14px 16px;margin:16px 0}
+.chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+.chain span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px}
+.chain span.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.chain i{color:var(--muted);font-style:normal}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+footer{padding:28px 0 48px;color:var(--muted);font-size:14px}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="kicker">Research project · Reproductive medicine × computer vision</div>
+  <h1>SpermSelect-AI: choosing the best sperm for ICSI from video</h1>
+  <p class="lead">From a <strong>10-second microscopy video</strong>: detect and track every spermatozoon, measure WHO/CASA kinematics, grade each cell, and rank the best candidates for injection, before the resulting embryos are vitrified.</p>
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/Engr-HusainNaqvi/Sperm-Select-AI">GitHub (write-up &amp; results)</a>
+    <a class="btn" href="https://github.com/Engr-HusainNaqvi/Sperm-Select-AI/blob/main/docs/METHODOLOGY_SELECTION.md">Research design</a>
+    <a class="btn" href="https://github.com/Engr-HusainNaqvi/Sperm-Select-AI/tree/main/results">All metrics</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+<section>
+  <h2>At a glance</h2>
+  <div class="stats">
+    <div class="stat"><b>0.82</b><span>detection F1 on the official held-out videos (vs 0.76 training-free)</span></div>
+    <div class="stat"><b>94.9&nbsp;%</b><span>per-sperm WHO grade agreement with ground-truth tracks</span></div>
+    <div class="stat"><b>−40&nbsp;%</b><span>motility error vs ZeroR, 85 men (MAE 7.72 vs 12.89)</span></div>
+    <div class="stat"><b>0.91</b><span>AUROC: low sperm concentration (&lt;16 M/mL)</span></div>
+    <div class="stat"><b>ρ = −0.58</b><span>video sperm speed vs DNA fragmentation</span></div>
+  </div>
+  <figure><img src="figures/pipeline.png" alt="Four panels: raw frame, YOLO detections, graded trajectories, top-5 shortlist"><figcaption>The app's own output on a VISEM sample: detection → tracking → per-sperm grade → ranked ICSI candidates.</figcaption></figure>
+</section>
+
+<section>
+  <h2>Why it matters</h2>
+  <div class="chain"><span class="on">Sperm selection</span><i>→</i><span>ICSI injection</span><i>→</i><span>Embryo culture</span><i>→</i><span>Vitrification</span><i>→</i><span>Transfer</span></div>
+  <p>In ICSI an embryologist chooses <em>one</em> sperm per egg, by eye. That choice is the first quality gate for every embryo that is later vitrified, and it is subjective. SpermSelect-AI turns it into measurements: sample-level motility and concentration that agree with the andrology lab, plus an explainable per-sperm ranking.</p>
+  <p class="note"><strong>Scope, stated plainly:</strong> no public dataset links individual sperm to fertilisation, embryo or vitrification outcomes, so none are predicted here. The ranking is a kinematics-based proposal that needs prospective validation.</p>
+</section>
+
+<section>
+  <h2>Method</h2>
+  <div class="grid2">
+    <div>
+      <p><strong>Detect &amp; track.</strong> YOLO11n fine-tuned on VISEM-Tracking (CPU). A vectorised Kalman filter with Hungarian assignment carries identity, because sperm look alike and only motion tells them apart.</p>
+      <p><strong>Measure.</strong> WHO 2021 / CASA kinematics (VCL, VSL, VAP, LIN, STR, WOB, ALH, BCF) in 1-s windows. Calibration of 0.495 µm/px was verified from flagellum length.</p>
+    </div>
+    <div>
+      <p><strong>Grade without per-sperm labels.</strong> No dataset labels individual sperm, so the grader is trained by <em>learning from label proportions</em>: each man's mix of predicted grades must match his lab percentages. In simulation it recovers per-sperm grades with 95.9 % accuracy (supervised ceiling 97.5 %, WHO-style rule 50.2 %).</p>
+      <p><strong>Rank.</strong> Score = P(progressive) × straightness × speed × track reliability.</p>
+    </div>
+  </div>
+  <p>Every choice (checkpoint, confidence threshold, smoothing window) was made on <strong>validation</strong> videos. Test videos are the official held-out VISEM-Tracking set; motility uses the official participant-level 5-fold split.</p>
+</section>
+
+<section>
+  <h2>Results</h2>
+  <h3>Detection and tracking (official held-out videos 52, 54, 60, 82)</h3>
+  <div class="tbl"><table>
+    <tr><th>Detector</th><th>Precision</th><th>Recall</th><th>F1</th><th>MOTA</th><th>IDF1</th></tr>
+    <tr><td>DoG blobs (training-free)</td><td>0.684</td><td>0.851</td><td>0.759</td><td>0.461</td><td>0.716</td></tr>
+    <tr class="best"><td>YOLO11n (ours)</td><td>0.827</td><td>0.804</td><td>0.815</td><td>0.656</td><td>0.707</td></tr>
+    <tr><td>Ground-truth boxes (tracker ceiling)</td><td>—</td><td>—</td><td>—</td><td>0.999</td><td>0.972</td></tr>
+  </table></div>
+  <p>COCO mAP50 on these videos is low (0.23). That is an annotation artifact: two test videos use ~29 px boxes vs ~18 px elsewhere, while centre error stays at 1.4–2.8 px. Point-matched F1 is the fair metric here.</p>
+
+  <h3>A kinematics correction that mattered</h3>
+  <figure><img src="figures/smoothing.png" alt="VCL error and grade agreement versus smoothing window on validation videos"><figcaption>Detector jitter inflated the speed of slow sperm 3–4×. A 7-frame centroid smoother chosen on validation videos cut VCL error on the test videos from 4.8 to 0.9 µm/s, and grade agreement rose from 77.6 % to 94.9 %.</figcaption></figure>
+
+  <h3>Sample-level motility vs the lab (85 men, 5-fold CV)</h3>
+  <figure><img src="figures/motility_mae.png" alt="Motility MAE by method"><figcaption>LLP + Ridge: MAE 7.72 (gain vs ZeroR 5.18, 95 % CI 3.48–6.96). Fixed WHO-style thresholds rank men well (r = 0.79) but are miscalibrated (MAE 17.75).</figcaption></figure>
+  <figure><img src="figures/motility_scatter.png" alt="Predicted vs lab progressive, non-progressive and immotile percentages"></figure>
+  <figure><img src="figures/kinematics_by_grade.png" alt="VCL, VSL and LIN by learned grade"><figcaption>47,201 tracked sperm: learned grades separate by kinematics without any per-sperm labels.</figcaption></figure>
+
+  <h3>Beyond motility: DNA integrity</h3>
+  <figure><img src="figures/health_links.png" alt="Correlations of video features with DFI, vitality and morphology"><figcaption>Median sperm speed from video tracks DNA fragmentation (ρ = −0.58) more closely than the lab's motility value does (ρ = −0.40). The link survives controlling for lab motility (partial ρ = −0.38, Holm p = 0.011). This is exploratory: association, not prediction.</figcaption></figure>
+</section>
+
+<section>
+  <h2>Clinician app</h2>
+  <p>Upload a phase-contrast video and get an <strong>ICSI shortlist</strong> highlighted on the video, a colour-coded tracked video, a per-sperm table (CSV) and a <strong>PDF report</strong> against WHO 2021 reference limits. Calibration is adjustable for other microscopes. Demo available on request.</p>
+</section>
+
+<section>
+  <h2>Limitations</h2>
+  <p>Single-centre public data from one optical set-up, recorded in raw semen rather than ICSI dishes. Per-sperm grading is validated in simulation and at sample level, not against per-sperm labels. Morphology is not assessed at this magnification. Research prototype, <strong>not a medical device</strong>.</p>
+</section>
+</main>
+
+<footer><div class="wrap">
+  © 2026 Husain Naqvi. All Rights Reserved. Data: VISEM-Tracking (Thambawita et al., <em>Sci Data</em> 2023) and VISEM (Haugen et al., ACM MMSys 2019), CC BY 4.0. Source access on request via <a href="https://github.com/Engr-HusainNaqvi">GitHub</a>.
+</div></footer>
+</body>
+</html>
