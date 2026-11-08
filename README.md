@@ -1,6 +1,6 @@
 # SpermSelect-AI — Video-Based Sperm Selection for ICSI Ahead of Embryo Vitrification
 
-[![Project page](https://img.shields.io/badge/project-page-2563eb)](https://engr-husainnaqvi.github.io/Sperm-Select-AI/)
+[![Project page](https://img.shields.io/badge/project-page-2563eb)](https://engr-husainnaqvi.github.io/Sperm-Select-AI/) [![Live app](https://img.shields.io/badge/live%20app-Streamlit-FF4B4B)](https://spermselect-ai.streamlit.app/)
 [![License: All Rights Reserved](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![YOLO11](https://img.shields.io/badge/detector-YOLO11n-orange) ![CPU](https://img.shields.io/badge/runs%20on-CPU-555)
 
@@ -113,7 +113,7 @@ This matters for the vitrification chain: DNA fragmentation of the injected sper
 
 ## Clinician app
 
-A Streamlit app (code in the private repository) takes an uploaded phase-contrast video (MP4/AVI) or a built-in example. It returns:
+A Streamlit app ([live here](https://spermselect-ai.streamlit.app/); code in the private repository) takes an uploaded phase-contrast video (MP4/AVI) or a built-in example. It returns:
 - an **ICSI shortlist**: the top-k sperm with their kinematics, highlighted on the video;
 - the **tracked video**, coloured green (progressive), orange (non-progressive), red (immotile) or yellow (shortlisted);
 - a **per-sperm table** with CSV download;
@@ -128,7 +128,7 @@ Calibration (µm/px) is adjustable for other microscopes. The smoothing window s
 
 ## Source code
 
-This public repository is a **showcase**: write-up, figures, research design ([`docs/METHODOLOGY_SELECTION.md`](docs/METHODOLOGY_SELECTION.md)) and all reported metrics ([`results/`](results/)). The full pipeline lives in a private repository: download, YOLO training, tracker, kinematics, LLP grader, evaluation scripts, trained weights, tests and the clinician app. **Source access and a live demo are available on request** via GitHub ([Engr-HusainNaqvi](https://github.com/Engr-HusainNaqvi)).
+This public repository is a **showcase**: write-up, figures, research design ([`docs/METHODOLOGY_SELECTION.md`](docs/METHODOLOGY_SELECTION.md)) and all reported metrics ([`results/`](results/)). The full pipeline lives in a private repository: download, YOLO training, tracker, kinematics, LLP grader, evaluation scripts, trained weights, tests and the clinician app. **A live demo is at [spermselect-ai.streamlit.app](https://spermselect-ai.streamlit.app/). Source access is available on request** via GitHub ([Engr-HusainNaqvi](https://github.com/Engr-HusainNaqvi)).
 
 ## Limitations
 
